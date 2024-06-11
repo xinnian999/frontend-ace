@@ -77,7 +77,7 @@ const handlePlay = () => {
     func()
     console.log = originalLog
     // console.log('运行日志:', logs)
-    const res = logs.join('\n ')
+    const res = logs.join('\n')
     console.log(res)
     result.value = res
   } catch (error) {
