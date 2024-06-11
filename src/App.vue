@@ -8,7 +8,7 @@
       @collapse="onCollapse"
       @menu-item-click="onMenuClick"
     >
-      <a-menu-item :key="path" v-for="{ title, path, icon } in menus">
+      <a-menu-item :key="path" v-for="{ title, path, icon } in menus.filter((item) => item.title)">
         <span>{{ title }}</span>
         <template #icon>
           <component :is="icon" />

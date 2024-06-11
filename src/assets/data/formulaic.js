@@ -4,6 +4,7 @@ export default [
     tab: 'Javascript',
     children: [
       {
+        id: '1',
         title: 'js基本数据类型有哪些及它们的区别?',
         desc: 'JavaScript共有八种数据类型，分别是 Undefined、Null、Boolean、Number、String、Object、Symbol、BigInt。',
         content:

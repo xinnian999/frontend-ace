@@ -16,6 +16,11 @@ export default [
     component: () => import('../views/formulaic/index.vue')
   },
   {
+    path: '/formulaic/detail',
+    name: 'formulaic-detail',
+    component: () => import('../views/formulaic/detail.vue')
+  },
+  {
     path: '/compute',
     name: 'compute',
     title: '算法',
