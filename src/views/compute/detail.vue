@@ -67,7 +67,7 @@ const handlePlay = () => {
 
   // 重定向 console.log
   console.log = function (...args) {
-    logs.push(typeof args[0] === 'object' ? JSON.stringify(args[0]) : args[0])
+    logs.push(typeof args[0] === 'object' ? JSON.stringify(args[0], null, 2) : args[0])
     originalLog.apply(console, args)
   }
 
@@ -77,8 +77,8 @@ const handlePlay = () => {
     func()
     console.log = originalLog
     // console.log('运行日志:', logs)
-    const res = logs.join('\n')
-    console.log(res)
+    const res = logs.join('\n\n')
+
     result.value = res
   } catch (error) {
     console.log = originalLog
@@ -126,7 +126,7 @@ onMounted(() => {
 
 .result {
   width: 100%;
-  height: 200px;
+  height: 300px;
   font-size: 16px;
   border: 1px solid;
 }
