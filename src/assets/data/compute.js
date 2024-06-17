@@ -149,7 +149,7 @@ console.log(bubbleSort([3, 0, -2, 6, 2, 5]));
     title: '列表转成树',
     description:
       '在JavaScript中，将列表（数组）转换为树形结构是一个常见的任务。通常，列表中的每个对象都有一个表示其父级对象的字段（例如，parentId）。以下是一个简单的示例，展示如何实现这种转换',
-    body: `function listToTree(list, parentId = null) {  
+    body: `const listToTree = (list) => {  
    //实现代码：
 }  
   
@@ -167,44 +167,35 @@ const list = [
 
 console.log(listToTree(list));
 `,
-    answer: `function listToTree(list, parentId = null) {  
-    // 创建一个 id 到节点的映射
-    const map = {};
-    list.forEach(item => {
-        map[item.id] = { ...item, children: [] };
-    });
+    answer: `const listToTree = (list) => {
+  // 创建一个函数来递归构建树
+  const buildTree = (node) => {
+    //先筛选出当前节点的子节点，再递归找出子节点的子节点
+    return list
+      .filter(item => item.parentId === node.id)
+      .map(item => ({ ...item, children: buildTree(item) }))
+  }
 
-    const result = [];
-    list.forEach(item => {
-        const node = map[item.id];
-        if (item.parentId === null || item.parentId === undefined) {
-            // 根节点
-            result.push(node);
-        } else {
-            // 子节点
-            if (!map[item.parentId]) {
-                map[item.parentId] = { children: [] };
-            }
-            map[item.parentId].children.push(node);
-        }
-    });
+  // 找出根节点，并对每个根节点调用递归函数
+  const tree = list
+    .filter(item => item.parentId === null)
+    .map(item => ({...item, children: buildTree(item) }))
 
-    return result;
-}  
-  
-// 示例数据  
-const list = [  
-    { id: 1, name: 'Node 1', parentId: null },  
-    { id: 2, name: 'Node 1.1', parentId: 1 },  
-    { id: 3, name: 'Node 1.2', parentId: 1 },  
-    { id: 4, name: 'Node 2', parentId: null },  
-    { id: 5, name: 'Node 2.1', parentId: 4 },  
-    { id: 6, name: 'Node 2.2', parentId: 4 },  
-    { id: 7, name: 'Node 2.1.1', parentId: 5 },  
-];  
-  
+  return tree
+}
 
-console.log(listToTree(list));
+// 示例数据
+const list = [
+  { id: 1, name: 'Node 1', parentId: null },
+  { id: 2, name: 'Node 1.1', parentId: 1 },
+  { id: 3, name: 'Node 1.2', parentId: 1 },
+  { id: 4, name: 'Node 2', parentId: null },
+  { id: 5, name: 'Node 2.1', parentId: 4 },
+  { id: 6, name: 'Node 2.2', parentId: 4 },
+  { id: 7, name: 'Node 2.1.1', parentId: 5 }
+]
+
+console.log(listToTree(list))
 `
   },
   {
