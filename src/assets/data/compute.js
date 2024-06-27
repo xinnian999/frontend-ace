@@ -328,5 +328,148 @@ debouncedSaveInput();
 // 500ms 后，'Input saved' 会被输出到控制台
 
 `
+  },
+  {
+    id: '7',
+    title: '将对象拍平为键值对数组',
+    description: '请编写一个函数flatObj，该函数接受一个对象。它返回一个将对象拍平后的数组',
+    body: `function flatObj(obj) {
+    //实现代码
+}
+
+const obj={
+  name:'hyl',
+  color:['blue','red','green'],
+  detail:{
+    age:25,
+    color:['blue','red','green'],
+    detail:{
+        age:25,
+        color:['blue','red','green'],
+    }
+  }
+}
+
+console.log(flatObj(obj));
+// 输出: ['name_hyl','color_0_blue','color_0_red','color_0_green','detail_age_25','detail_color_0_blue','detail_color_1_red','detail_color_2_green','detail_detail_age_25','detail_detail_color_0_blue','detail_detail_color_1_red','detail_detail_color_2_green']
+`,
+    answer: `function flatObj(obj, parentKey = '') {
+    //实现代码
+     return Object.entries(obj).reduce((result, [key, value]) => {
+        let newKey = parentKey ? \`\${parentKey}_\${key}\` : key;
+        if (Array.isArray(value)) {
+            value.forEach((item, index) => {
+                result = result.concat(flatObj({ [index]: item }, newKey));
+            });
+        } else if (typeof value === 'object' && value !== null) {
+            result = result.concat(flatObj(value, newKey));
+        } else {
+            result.push(\`\${newKey}_\${value}\`);
+        }
+        return result;
+    }, []);
+}
+
+const obj={
+  name:'hyl',
+  color:['blue','red','green'],
+  detail:{
+    age:25,
+    color:['blue','red','green'],
+    detail:{
+        age:25,
+        color:['blue','red','green'],
+    }
+  }
+}
+
+console.log(flatObj(obj));
+// 输出: ['name_hyl','color_0_blue','color_0_red','color_0_green','detail_age_25','detail_color_0_blue','detail_color_1_red','detail_color_2_green','detail_detail_age_25','detail_detail_color_0_blue','detail_detail_color_1_red','detail_detail_color_2_green']`
+  },
+  {
+    id: '8',
+    title: '将对象键值对数组,转化为对象',
+    description: '请编写一个函数unFlatObj，该函数接受一个键值对数组。它返回一个对象',
+    body: `function unFlatObj(arr) {
+    //实现代码
+}
+
+const arr = [
+    'name_hyl',
+    'color_0_blue',
+    'color_1_red',
+    'color_2_green',
+    'detail_age_25',
+    'detail_color_0_blue',
+    'detail_color_1_red',
+    'detail_color_2_green',
+    'detail_detail_age_25',
+    'detail_detail_color_0_blue',
+    'detail_detail_color_1_red',
+    'detail_detail_color_2_green'
+];
+
+console.log(unFlatObj(arr));
+//{
+//   name:'hyl',
+//   color:['blue','red','green'],
+//   detail:{
+//   age:25,
+//     color:['blue','red','green'],
+//     detail:{
+//     age:25,
+//       color:['blue','red','green'],
+//   }
+// }
+// }`,
+    answer: `function unFlatObj(arr) {
+    //实现代码
+   return arr.reduce((result, item) => {
+        let parts = item.split('_');
+        let value = parts.pop();
+        parts.reduce((acc, key, index) => {
+            key = isNaN(key) ? key : parseInt(key);
+            if (index === parts.length - 1) {
+                acc[key] = isNaN(value) ? value : parseFloat(value);
+            } else {
+                if (!acc[key]) {
+                    acc[key] = isNaN(parts[index + 1]) ? {} : [];
+                }
+            }
+            return acc[key];
+        }, result);
+        return result;
+    }, {});
+}
+
+const arr = [
+    'name_hyl',
+    'color_0_blue',
+    'color_1_red',
+    'color_2_green',
+    'detail_age_25',
+    'detail_color_0_blue',
+    'detail_color_1_red',
+    'detail_color_2_green',
+    'detail_detail_age_25',
+    'detail_detail_color_0_blue',
+    'detail_detail_color_1_red',
+    'detail_detail_color_2_green'
+];
+
+console.log(unFlatObj(arr));
+//{
+//   name:'hyl',
+//   color:['blue','red','green'],
+//   detail:{
+//   age:25,
+//     color:['blue','red','green'],
+//     detail:{
+//     age:25,
+//       color:['blue','red','green'],
+//   }
+// }
+// }
+`
   }
 ]
